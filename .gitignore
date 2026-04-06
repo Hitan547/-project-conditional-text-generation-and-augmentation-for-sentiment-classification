@@ -9,6 +9,11 @@
 data/
 datasets/
 
+# Ignore model folders completely
+roberta_classifierog/
+roberta_classifieraugmented/
+smollm/
+
 # Python
 __pycache__/
 *.pyc
