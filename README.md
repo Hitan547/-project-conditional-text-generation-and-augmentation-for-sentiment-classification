@@ -1,164 +1,315 @@
-# 🤖 Multi-Dataset Conditional Text Generation & Augmentation for Sentiment & Emotion Classification
+<div align="center">
 
-This project implements a unified pipeline across three benchmark datasets—**TweetEval**, **GoEmotions**, and **DAIR Emotion**—to perform **conditional text generation** using *SmolLM-135M* for data augmentation and improve classification performance, especially for minority classes.
+<img src="https://img.shields.io/badge/Status-Published-brightgreen?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Conference-Springer_LNCS-blue?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Python-3.10+-yellow?style=for-the-badge&logo=python" />
+<img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C?style=for-the-badge&logo=pytorch" />
+<img src="https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface" />
 
----
+<br/><br/>
 
-## 🚀 Project Overview
+# 🧠 Multi-Dataset Conditional Text Generation for Emotion Augmentation in Sentiment Classification
 
-### 📊 Datasets
+### *A student research paper published in Springer LNCS*
 
-* **TweetEval** → 3-class sentiment classification *(Negative, Neutral, Positive)*
-* **GoEmotions** → 27 fine-grained emotion classes
-* **DAIR Emotion** → 6 core emotions *(sadness, joy, love, anger, fear, surprise)*
+<br/>
 
----
+### 👨‍💻 Built & Implemented by [Hitan K](https://github.com/hitank2004)
+> *AI/ML Developer · Student Researcher · Department of CSE & AI, DSATM Bangalore*
 
-## ⚙️ Preprocessing
+<br/>
 
-* Lowercasing text
-* Removing URLs, mentions, hashtags, emojis, and noise
-* Adding **control tokens** (e.g., `[POSITIVE]`, `[JOY]`, `[SADNESS]`)
-* Tokenization with:
+*Co-authored with: Priyanka R, Adrian Patrick, Dinesha N, Ajay Krishna*
 
-  * Fixed max length
-  * Padding
-  * Attention masks
+<br/>
 
----
+> **Abstract:** We propose a unified pipeline that addresses class imbalance and label taxonomy heterogeneity across emotion datasets by combining emotion-conditioned text generation (SmolLM-135M-Instruct) with transformer-based classification (RoBERTa + Optuna). Evaluated on GoEmotions, TweetEval, and DAIR Emotion, achieving macro-F1 scores of **0.83**, **0.79**, and **0.97** respectively — with consistent gains on minority emotion classes.
 
-## 🧠 Conditional Generation (Data Augmentation)
+<br/>
 
-* Fine-tuned **SmolLM-135M-Instruct** on each dataset
-* Used **control tokens** for guided generation
-* Generated synthetic samples for **minority classes**
-* Applied diverse prompt strategies to improve variety
-* Achieved **balanced class distributions**
+[📄 Read the Paper](#-paper) · [🚀 Quick Start](#-quick-start) · [📊 Results](#-results) · [🔬 Methodology](#-methodology) · [📁 Repo Structure](#-repo-structure)
+
+</div>
 
 ---
 
-## 📈 Classifier Training
+## 👨‍💻 About the Developer
 
-* Used **RoBERTa-based models** for classification
-* Applied **Optuna** for hyperparameter tuning:
+**Hitan K** is an AI/ML Developer and Student Researcher at Dayananda Sagar Academy of Technology and Management (DSATM), Bangalore, specializing in Generative AI, NLP, and Intelligent Systems.
 
-  * Learning rate
-  * Batch size
-  * Epochs
-* Implemented:
+On this project, Hitan was responsible for:
+- 🏗️ Designing and implementing the **end-to-end pipeline** across all three datasets
+- 🤖 Fine-tuning **SmolLM-135M-Instruct** for emotion-conditioned text generation
+- 📊 Running **RoBERTa + Optuna** experiments and hyperparameter search
+- 📓 Writing all **Jupyter notebooks** for full reproducibility
+- 📈 Generating all evaluation metrics, confusion matrices, and analysis
 
-  * Mixed precision training
-  * Early stopping based on validation performance
-
----
-
-## 📊 Evaluation Metrics
-
-### Generation Models
-
-* Training Loss
-* Validation Loss
-* Perplexity
-
-### Classification Models
-
-* Accuracy
-* Precision
-* Recall
-* F1-score
-* Confusion Matrix
-
-👉 Special focus on **minority-class improvements**
+| | |
+|---|---|
+| 🎓 | B.Tech CSE & AI — DSATM Bangalore |
+| 🔬 | Published Researcher — Springer LNCS |
+| 🛠️ | Generative AI · NLP · Transformers · PyTorch · HuggingFace |
+| 📬 | hitank2004@gmail.com |
+| 🐙 | [github.com/hitank2004](https://github.com/hitank2004) |
 
 ---
 
-## 🔄 Pipeline Workflow
+## 📌 Table of Contents
 
-### 1. Data Loading & Cleaning
-
-* Load datasets from Hugging Face
-* Apply preprocessing & label mapping
-* Visualize class imbalance
-
-### 2. Conditional Generation & Augmentation
-
-* Fine-tune generator models
-* Generate synthetic minority samples
-* Merge with original data
-
-### 3. Classifier Fine-Tuning
-
-* Train models on:
-
-  * Original dataset
-  * Augmented dataset
-* Optimize using Optuna
-* Select best model via validation F1
-
-### 4. Evaluation & Analysis
-
-* Compare baseline vs augmented performance
-* Analyze confusion matrices
-* Highlight improvements in minority classes
+- [Motivation](#-motivation)
+- [Key Contributions](#-key-contributions)
+- [Methodology](#-methodology)
+- [Results](#-results)
+- [Repo Structure](#-repo-structure)
+- [Quick Start](#-quick-start)
+- [Datasets](#-datasets)
+- [Paper](#-paper)
+- [Citation](#-citation)
+- [Acknowledgements](#-acknowledgements)
 
 ---
 
-## 📊 Key Results
+## 💡 Motivation
 
-### TweetEval
+Emotion and sentiment classifiers suffer from three systemic problems that degrade real-world performance:
 
-* Original → Accuracy: **~0.72**, Macro F1: **~0.71**
-* Augmented → Accuracy: **~0.79**, Macro F1: **~0.79**
+| Problem | Impact |
+|---|---|
+| **Severe class imbalance** | Models overfit to dominant classes (joy, neutral) and fail on rare ones (grief, fear, relief) |
+| **Heterogeneous label taxonomies** | Hard to generalize across datasets with different emotion ontologies |
+| **Sparse minority-class data** | Classical augmentation (back-translation, synonym replacement) distorts emotional context |
 
-### GoEmotions (Single-label)
-
-* Original → Accuracy: **~0.58**, Macro F1: **~0.51**
-* Augmented → Accuracy: **~0.83**, Macro F1: **~0.83**
-
-### DAIR Emotion
-
-* Original → Accuracy: **~0.93**, Macro F1: **~0.90**
-* Augmented → Accuracy: **~0.97**, Macro F1: **~0.97**
-
-✅ Significant improvements in **minority-class recall and F1-score**
+Classical solutions like EDA, SMOTE, and back-translation treat augmentation as a lexical problem. We treat it as a **semantic generation** problem — conditioning a language model explicitly on emotion labels to synthesize diverse, affect-faithful minority samples.
 
 ---
 
-## 📁 Repository Structure
+## 🏆 Key Contributions
+
+- ✅ **Unified multi-dataset pipeline** — single framework evaluated across TweetEval, GoEmotions, and DAIR Emotion without dataset-specific hacks
+- ✅ **Emotion-conditioned text generation** — fine-tuned SmolLM-135M-Instruct with explicit control tokens (`[JOY]`, `[FEAR]`, `[POSITIVE]`, etc.) for label-faithful synthesis
+- ✅ **Minority-class targeted augmentation** — generates samples only for underrepresented classes, preserving majority-class distribution
+- ✅ **Optuna-driven hyperparameter optimization** — automated search over learning rate and epoch space on validation macro-F1
+- ✅ **Resource-efficient** — full pipeline runs on a single RTX 4050 via Google Colab with FP16 mixed-precision training
+
+---
+
+## 🔬 Methodology
+
+The pipeline is divided into four stages:
 
 ```
-dairemotion/   → DAIR Emotion pipeline
-goemotion/     → GoEmotions pipeline
-tweeteval/     → TweetEval pipeline
+┌─────────────────────────────────────────────────────────────────┐
+│  STAGE 1: Data Preprocessing                                    │
+│  Load → Clean → Add Control Tokens → Stratified Split           │
+└─────────────────────┬───────────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────────┐
+│  STAGE 2: Emotion-Conditioned Generation (SmolLM-135M-Instruct) │
+│  Fine-tune on balanced seed data → Generate minority samples    │
+│  → Quality filter → Merge with original training set            │
+└─────────────────────┬───────────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────────┐
+│  STAGE 3: RoBERTa Classification (with Optuna)                  │
+│  Train on augmented data → Optuna LR search → Best checkpoint   │
+└─────────────────────┬───────────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────────┐
+│  STAGE 4: Evaluation                                            │
+│  Macro-F1 · Weighted-F1 · Minority-class recall · Confusion     │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-Each folder includes:
+### Generation Model — SmolLM-135M-Instruct
 
-* Jupyter notebooks
-* Data preprocessing
-* Generation pipeline
-* Classification workflow
+| Parameter | Value |
+|---|---|
+| Objective | Conditional Causal Language Modeling |
+| Learning Rate | 2 × 10⁻⁴ (Linear Decay) |
+| Effective Batch Size | 64 |
+| Epochs | 6 |
+| Max Sequence Length | 128 tokens |
+| Precision | Mixed (FP16) |
+| Control Tokens | `[POSITIVE]`, `[NEGATIVE]`, `[NEUTRAL]`, `[JOY]`, `[FEAR]`, `[SADNESS]`, ... |
+
+**Generation hyperparameters:** `temperature=0.75`, `top_k=40`, `top_p=0.9`, `repetition_penalty=1.3`, `no_repeat_ngram_size=3`
+
+### Classifier — RoBERTa + Optuna
+
+| Parameter | Value |
+|---|---|
+| Base Model | `roberta-base` |
+| Learning Rate | 5e-5 (Optuna range: 1e-5 → 5e-5) |
+| Gradient Accumulation | 2 steps (effective batch size: 64) |
+| Warmup Ratio | 0.1 |
+| Weight Decay | 0.01 |
+| Optimizer | AdamW |
+| Best TweetEval Config | LR: 2.03e-05, 1 epoch → F1: 0.790 |
 
 ---
 
-## 🧠 Key Highlights
+## 📊 Results
 
-* Multi-dataset unified pipeline
-* Conditional text generation for augmentation
-* Hybrid approach combining **LLM + classical ML pipeline**
-* Strong improvement in class imbalance handling
-* End-to-end experimentation and evaluation
+### TweetEval (3-class Sentiment)
 
----
+| Method | Accuracy | Macro F1 | Weighted F1 |
+|---|---|---|---|
+| Baseline (No Augmentation) | 0.72 | 0.71 | 0.72 |
+| Baseline (Random Oversampling) | 0.72 | 0.72 | 0.72 |
+| **Ours (Conditional Generation)** | **0.79** | **0.79** | **0.79** |
 
-## 👨‍💻 Author
-
-**Hitan K**
-AI/ML Developer | Focused on Generative AI, NLP, and Intelligent Systems
+*SmolLM Training — Loss: 3.08 → 4.32 eval, Perplexity: 75.10*
 
 ---
 
-## 📬 Contact
+### DAIR Emotion (6-class)
 
-For queries, collaborations, or improvements:
-👉 Open an issue or submit a pull request
+| Method | Accuracy | Macro F1 | Weighted F1 |
+|---|---|---|---|
+| Baseline (No Augmentation) | 0.93 | 0.90 | 0.94 |
+| Baseline (Random Oversampling) | 0.93 | 0.91 | 0.93 |
+| **Ours (Conditional Generation)** | **0.97** | **0.97** | **0.97** |
+
+*SmolLM Training — Loss: 1.89 → 3.97 eval, Perplexity: 52.91*
+
+---
+
+### GoEmotions (27-class Fine-Grained)
+
+| Method | Accuracy | Macro F1 | Weighted F1 |
+|---|---|---|---|
+| Baseline (No Augmentation) | 0.58 | 0.51 | 0.57 |
+| Baseline (23-Emotion Model) | 0.45 | 0.46 | 0.43 |
+| **Ours (Conditional Generation)** | **0.83** | **0.83** | **0.83** |
+
+*SmolLM Training — Loss: 2.62 → 4.15 eval, Perplexity: 63.51*
+
+---
+
+> **Key finding:** The largest gains appear consistently in **minority emotion classes** — fear and surprise in DAIR Emotion, relief/grief/admiration in GoEmotions, and the ambiguous neutral class in TweetEval. Augmentation reduces inter-class confusion where semantically adjacent emotions (e.g., love↔joy, disgust↔anger) are most likely to be conflated.
+
+---
+
+## 📁 Repo Structure
+
+```
+.
+├── tweeteval/
+│   ├── tweetevalfinal.ipynb        # Preprocessing + generation + classification
+│   └── data/                       # Augmented split cache (auto-generated)
+│
+├── goemotion/
+│   ├── goemotionfinal.ipynb
+│   └── data/
+│
+├── dairemotion/
+│   ├── dairemotionfinal.ipynb
+│   └── data/
+│
+├── paper/
+│   └── PID-130_research_paper_springer.pdf   # Published paper
+│
+└── README.md
+```
+
+Each dataset folder is self-contained — run its notebook end-to-end to reproduce generation, augmentation, and classification.
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+```bash
+pip install transformers datasets torch accelerate tokenizers optuna scikit-learn matplotlib seaborn
+```
+
+GPU with at least 6GB VRAM recommended (tested on RTX 4050 via Google Colab).
+
+### Run on TweetEval
+
+```python
+# 1. Open tweeteval/tweetevalfinal.ipynb in Colab or Jupyter
+# 2. Ensure GPU runtime is enabled
+# 3. Run all cells sequentially
+
+# The pipeline will:
+# - Load cardiffnlp/tweet_eval (sentiment)
+# - Fine-tune SmolLM-135M-Instruct with [POSITIVE]/[NEGATIVE]/[NEUTRAL] tokens
+# - Generate synthetic minority samples
+# - Fine-tune RoBERTa with Optuna
+# - Output: confusion matrix, macro-F1, per-class recall
+```
+
+### Run on DAIR Emotion
+
+```python
+# Open dairemotion/dairemotionfinal.ipynb
+# Control tokens: [SADNESS], [JOY], [LOVE], [ANGER], [FEAR], [SURPRISE]
+```
+
+### Run on GoEmotions
+
+```python
+# Open goemotion/goemotionfinal.ipynb
+# 27 fine-grained emotion control tokens
+# Note: GoEmotions is multi-label; single-label mode used here for controlled evaluation
+```
+
+---
+
+## 📦 Datasets
+
+| Dataset | Source | Classes | Size | Domain |
+|---|---|---|---|---|
+| [TweetEval](https://huggingface.co/datasets/cardiffnlp/tweet_eval) | Barbieri et al., 2020 | 3 (Neg/Neu/Pos) | ~59K tweets | Twitter |
+| [GoEmotions](https://huggingface.co/datasets/google-research-datasets/go_emotions) | Demszky et al., 2020 | 27 + neutral | 58,011 Reddit comments | Reddit |
+| [DAIR Emotion](https://huggingface.co/datasets/dair-ai/emotion) | Saravia et al., 2018 | 6 | 20,000 sentences | Social media |
+
+All datasets load directly from HuggingFace Hub — no manual download needed.
+
+---
+
+## 📄 Paper
+
+> **Multi-Dataset Conditional Text Generation for Emotion Augmentation in Sentiment Classification**  
+> Priyanka R, Adrian Patrick, Dinesha N, Hitan K, Ajay Krishna  
+> Department of CSE & AI, Dayananda Sagar Academy of Technology and Management, Bangalore, India  
+> *Published in Springer Lecture Notes in Computer Science (LNCS)*
+
+📎 [`paper/PID-130_research_paper_springer.pdf`](./paper/PID-130_research_paper_springer.pdf)
+
+---
+
+## 📝 Citation
+
+If you use this work, please cite:
+
+```bibtex
+@inproceedings{hitank2025emotionconditioned,
+  title     = {Multi-Dataset Conditional Text Generation for Emotion Augmentation in Sentiment Classification},
+  author    = {Priyanka R and Patrick, Adrian and Dinesha N and {Hitan K} and Ajay Krishna},
+  booktitle = {Springer Lecture Notes in Computer Science},
+  year      = {2025},
+  institution = {Dayananda Sagar Academy of Technology and Management, Bangalore, India}
+}
+```
+
+---
+
+## 🙏 Acknowledgements
+
+- Dataset creators: [GoEmotions (Google Research)](https://github.com/google-research/google-research/tree/master/goemotions), [TweetEval (Cardiff NLP)](https://github.com/cardiffnlp/tweeteval), [DAIR Emotion](https://huggingface.co/datasets/dair-ai/emotion)
+- Model authors: [SmolLM-135M-Instruct (HuggingFace)](https://huggingface.co/HuggingFaceTB/SmolLM-135M-Instruct), [RoBERTa (Liu et al., 2019)](https://arxiv.org/abs/1907.11692)
+- Compute: Google Colab (RTX 4050 GPU)
+- Hyperparameter optimization: [Optuna (Akiba et al., 2019)](https://optuna.org/)
+
+---
+
+<div align="center">
+
+Built with ❤️ by **[Hitan K](https://github.com/hitank2004)** · DSATM Bangalore
+
+*If this work helped you, please ⭐ the repo!*
+
+</div>
