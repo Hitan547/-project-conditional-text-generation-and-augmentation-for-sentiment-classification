@@ -272,29 +272,26 @@ All datasets load directly from HuggingFace Hub — no manual download needed.
 
 ## 📄 Paper
 
-> **Multi-Dataset Conditional Text Generation for Emotion Augmentation in Sentiment Classification**  
-> Priyanka R, Adrian Patrick, Dinesha N, Hitan K, Ajay Krishna  
-> Department of CSE & AI, Dayananda Sagar Academy of Technology and Management, Bangalore, India  
-> *Published in Springer Lecture Notes in Computer Science (LNCS)*
+<div align="center">
 
-📎 [`paper/PID-130_research_paper_springer.pdf`](./paper/PID-130_research_paper_springer.pdf)
+[![Read Paper](https://img.shields.io/badge/📄_Read_the_Paper-Springer_LNCS-blue?style=for-the-badge)](https://github.com/Hitan547/-project-conditional-text-generation-and-augmentation-for-sentiment-classification/blob/main/PID-130_research_paper_springer.pdf)
 
----
+</div>
 
-## 📝 Citation
+## 📝 Want to Use This Work?
 
-If you use this work, please cite:
+> This project is part of a published research paper. If you'd like to use, reference, or collaborate on this work — **reach out directly.**
 
-```bibtex
-@inproceedings{hitank2025emotionconditioned,
-  title     = {Multi-Dataset Conditional Text Generation for Emotion Augmentation in Sentiment Classification},
-  author    = {Priyanka R and Patrick, Adrian and Dinesha N and {Hitan K} and Ajay Krishna},
-  booktitle = {Springer Lecture Notes in Computer Science},
-  year      = {2025},
-  institution = {Dayananda Sagar Academy of Technology and Management, Bangalore, India}
-}
-```
+<div align="center">
 
+### 📬 Contact Hitan K
+
+[![Email](https://img.shields.io/badge/Email-hitank2004%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:hitank2004@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-hitank2004-black?style=for-the-badge&logo=github)](https://github.com/hitank2004)
+
+*Open to collaborations, research discussions, and opportunities.*
+
+</div>
 ---
 
 ## 🙏 Acknowledgements
@@ -308,7 +305,7 @@ If you use this work, please cite:
 
 <div align="center">
 
-Built with ❤️ by **[Hitan K](https://github.com/hitank2004)** · DSATM Bangalore
+Built by **[Hitan K](https://github.com/hitank2004)** · DSATM Bangalore
 
 *If this work helped you, please ⭐ the repo!*
 
